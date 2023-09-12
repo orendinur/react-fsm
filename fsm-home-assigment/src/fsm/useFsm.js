@@ -1,10 +1,9 @@
 import { useState } from "react";
 
 export const useFsm = (machine) => {
-  const [currentValue, setCurrentValue] = useState(machine.initialState);
-
+  const [currentValue, setCurrentValue] = useState(machine?.initialState);
   const transition = (name) => {
-    if (!machine.states || !currentValue) return;
+    if (!machine || !machine.states || !currentValue) return;
 
     const currentDefinition = machine.states[currentValue];
     if (!currentDefinition) return;
