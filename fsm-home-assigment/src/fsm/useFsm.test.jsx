@@ -1,10 +1,28 @@
-import { renderHook } from "@testing-library/react";
-import { useFsm } from "./useFsm";
-import fetchMachine from "../light.machine";
+import { render, screen } from "@testing-library/react";
+import { describe, expect, test } from "vitest";
+import { TestComponent } from "./utils";
+import { testMachine } from "./utils/testMachine";
 
 describe("useFsm", () => {
-  test("should render the initial machine state", () => {
-    const { result } = renderHook(() => useFsm(fetchMachine));
-    expect(result.current[0]).toBe(fetchMachine.initialState);
+  test("should get the initial machine state value", () => {
+    render(<TestComponent machine={testMachine} />);
+    screen.debug();
+    expect(screen.getByText(testMachine.initialState)).toBeInTheDocument();
   });
 });
+// test("should stay on same state on non-existing event", () => {
+//   render(<TestComponent />);
+
+//   const { result } = renderHook(() => useFsm(fetchMachine));
+//   const [initialValue, transition] = result.current;
+//   console.log("oren initialValue", initialValue);
+//   act(() => {
+//     transition(TRANSITIONS.TIMER);
+//   });
+
+//   const [updateValue] = result.current;
+//   console.log("oren updated value", updateValue);
+//   expect(updateValue).toBe(initialValue);
+// });
+// }
+// );

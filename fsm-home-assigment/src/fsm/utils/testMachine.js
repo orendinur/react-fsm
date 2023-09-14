@@ -1,3 +1,5 @@
+import { test } from "vitest";
+
 export const TRANSITIONS = {
   TIMER: "timer",
   NONE: "none",
@@ -9,7 +11,7 @@ export const STATES = {
   GREEN: "green",
 };
 
-export const fetchMachine = {
+export const testMachine = {
   initialState: STATES.RED,
   states: {
     red: {
@@ -36,4 +38,4 @@ export const fetchMachine = {
   },
 };
 
-export default fetchMachine;
+export default testMachine;

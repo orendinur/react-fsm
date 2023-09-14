@@ -1,9 +1,9 @@
-import { useFsm } from "./fsm/useFsm";
 import { useEffect } from "react";
-import { TRANSITIONS, fetchMachine } from "./light.machine";
+import { TRANSITIONS } from "../../light.machine";
+import { useFsm } from "../useFsm";
 
-export default function App() {
-  const [currentValue, transition] = useFsm(fetchMachine);
+export const TestComponent = ({ machine }) => {
+  const [currentValue, transition] = useFsm(machine);
 
   const handleClick = () => {
     console.log("oren started timeout.. current state is", currentValue);
@@ -15,8 +15,8 @@ export default function App() {
 
   return (
     <>
-      <button onClick={handleClick}>Transition</button>
+      <button onClick={handleClick}></button>
       <div>{currentValue}</div>
     </>
   );
-}
+};
