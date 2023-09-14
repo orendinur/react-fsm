@@ -1,10 +1,6 @@
-import {
-  userEvent,
-  act,
-  render,
-  renderHook,
-  screen,
-} from "@testing-library/react";
+import { act, render, renderHook, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+
 import { describe, expect, test } from "vitest";
 import { TestComponent } from "./utils";
 import {
@@ -27,7 +23,7 @@ describe("TestComponent", () => {
     expect(screen.queryByText(STATES.YELLOW)).toBeNull();
 
     const button = screen.getByText("Click to transition");
-    await userEvent.click(screen.getByText("Click to transition"));
+    await userEvent.click(button);
     expect(await screen.findByText(STATES.YELLOW)).toBeInTheDocument();
   });
 });
