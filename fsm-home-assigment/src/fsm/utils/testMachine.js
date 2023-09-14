@@ -11,7 +11,7 @@ export const STATES = {
   GREEN: "green",
 };
 
-export const testMachine = {
+export const endlessTestMachine = {
   initialState: STATES.RED,
   states: {
     red: {
@@ -38,4 +38,13 @@ export const testMachine = {
   },
 };
 
-export default testMachine;
+export const finalTestMachine = {
+  initialState: STATES.RED,
+  states: {
+    red: {
+      isFinalState: true,
+    },
+  },
+};
+
+export default endlessTestMachine;

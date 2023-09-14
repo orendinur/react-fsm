@@ -15,7 +15,7 @@ export const TestComponent = ({ machine }) => {
 
   return (
     <>
-      <button onClick={handleClick}></button>
+      <button onClick={handleClick}>Click to transition</button>
       <div>{currentValue}</div>
     </>
   );

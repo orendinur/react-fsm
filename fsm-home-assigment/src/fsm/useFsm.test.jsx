@@ -1,28 +1,53 @@
-import { render, screen } from "@testing-library/react";
+import {
+  userEvent,
+  act,
+  render,
+  renderHook,
+  screen,
+} from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import { TestComponent } from "./utils";
-import { testMachine } from "./utils/testMachine";
+import {
+  TRANSITIONS,
+  endlessTestMachine,
+  finalTestMachine,
+} from "./utils/testMachine";
+import { STATES } from "../light.machine";
+import { useFsm } from "./useFsm";
 
-describe("useFsm", () => {
-  test("should get the initial machine state value", () => {
-    render(<TestComponent machine={testMachine} />);
-    screen.debug();
-    expect(screen.getByText(testMachine.initialState)).toBeInTheDocument();
+describe("TestComponent", () => {
+  test("should get the initial state machine value", () => {
+    render(<TestComponent machine={endlessTestMachine} />);
+    expect(
+      screen.getByText(endlessTestMachine.initialState)
+    ).toBeInTheDocument();
+  });
+  test("should change state on transition", async () => {
+    render(<TestComponent machine={endlessTestMachine} />);
+    expect(screen.queryByText(STATES.YELLOW)).toBeNull();
+
+    const button = screen.getByText("Click to transition");
+    await userEvent.click(screen.getByText("Click to transition"));
+    expect(await screen.findByText(STATES.YELLOW)).toBeInTheDocument();
   });
 });
-// test("should stay on same state on non-existing event", () => {
-//   render(<TestComponent />);
 
-//   const { result } = renderHook(() => useFsm(fetchMachine));
-//   const [initialValue, transition] = result.current;
-//   console.log("oren initialValue", initialValue);
-//   act(() => {
-//     transition(TRANSITIONS.TIMER);
-//   });
+describe("useFsm", () => {
+  test("should stay on the same state on non-existing event", async () => {
+    const { result } = renderHook(() => useFsm(endlessTestMachine));
+    const [initialValue, transition] = result.current;
+    transition(TRANSITIONS.NONE);
+    const [updatedValue] = result.current;
+    expect(updatedValue).toBe(initialValue);
+  });
 
-//   const [updateValue] = result.current;
-//   console.log("oren updated value", updateValue);
-//   expect(updateValue).toBe(initialValue);
-// });
-// }
-// );
+  test("should return null after transitioning from a final state", () => {
+    const { result } = renderHook(() => useFsm(finalTestMachine));
+    const [initialValue, transition] = result.current;
+    act(() => {
+      transition(TRANSITIONS.NONE);
+    });
+    const [updatedValue] = result.current;
+    expect(updatedValue).toBe(null);
+  });
+});
