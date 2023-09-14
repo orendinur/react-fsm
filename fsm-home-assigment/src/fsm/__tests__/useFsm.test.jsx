@@ -11,6 +11,8 @@ import { STATES } from "../../light.machine";
 import { useFsm } from "../useFsm";
 import { TestComponent } from "../utils/test/TestComponent";
 
+// This test suite, contains tests to evaluate the behavior of a simple React component that uses the `useFsm` hook.
+
 describe("TestComponent", () => {
   test("should get the initial state machine value", () => {
     render(<TestComponent machine={endlessTestMachine} />);
@@ -27,6 +29,8 @@ describe("TestComponent", () => {
     expect(await screen.findByText(STATES.YELLOW)).toBeInTheDocument();
   });
 });
+
+// This test suite, contains tests to evaluate the behavior of the `useFsm` custom hook.
 
 describe("useFsm", () => {
   test("should stay on the same state on non-existing event", async () => {
