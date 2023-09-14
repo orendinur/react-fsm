@@ -2,14 +2,14 @@ import { act, render, renderHook, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { describe, expect, test } from "vitest";
-import { TestComponent } from "./utils";
 import {
   TRANSITIONS,
   endlessTestMachine,
   finalTestMachine,
-} from "./utils/testMachine";
-import { STATES } from "../light.machine";
-import { useFsm } from "./useFsm";
+} from "../utils/test/testMachine";
+import { STATES } from "../../light.machine";
+import { useFsm } from "../useFsm";
+import { TestComponent } from "../utils/test/TestComponent";
 
 describe("TestComponent", () => {
   test("should get the initial state machine value", () => {

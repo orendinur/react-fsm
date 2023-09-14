@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { TRANSITIONS } from "../../light.machine";
-import { useFsm } from "../useFsm";
+import { TRANSITIONS } from "../../../light.machine";
+import { useFsm } from "../../useFsm";
 
 export const TestComponent = ({ machine }) => {
   const [currentValue, transition] = useFsm(machine);
