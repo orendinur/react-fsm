@@ -1,7 +1,7 @@
 import { useFsm } from "./fsm/useFsm";
 import { useEffect } from "react";
 import { TRANSITIONS, fetchMachine } from "./light.machine";
-import { BookList } from "./components/BookList";
+import { BookList } from "./components/BookList/BookList";
 
 export default function App() {
   const [currentValue, transition] = useFsm(fetchMachine);

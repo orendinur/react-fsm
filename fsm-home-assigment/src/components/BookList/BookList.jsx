@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { fetchData } from "../utils/helpers";
-import { API_KEY, BASE_BOOKS_URL } from "../utils/constants";
+import { fetchData } from "../../utils/helpers";
+import { API_KEY, BASE_BOOKS_URL } from "../../utils/constants";
+import styles from "./BookList.module.css";
 
 export const BookList = ({ genre }) => {
   const [books, setBooks] = useState(null);
@@ -8,19 +9,14 @@ export const BookList = ({ genre }) => {
   const fetch = async () => {
     try {
       const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}`;
-      console.log("oren url", url);
       const booksResponse = await fetchData(url);
-
-      console.log("oren response", booksResponse);
       if (!booksResponse || !booksResponse.items) {
         return;
       }
 
-      console.log("oren books3", booksResponse);
       const books = booksResponse.items.map((item) => item.volumeInfo);
       if (!books) return;
 
-      console.log("oren books2", books);
       const filteredBooks = books.filter((bookInfo) => {
         return (
           bookInfo.imageLinks &&
@@ -29,8 +25,6 @@ export const BookList = ({ genre }) => {
           bookInfo.authors
         );
       });
-
-      console.log("oren books1", filteredBooks);
 
       const formattedBooks = filteredBooks.map((bookInfo) => {
         return {
@@ -41,7 +35,6 @@ export const BookList = ({ genre }) => {
       });
 
       // Use the first 21 books
-      console.log("oren booksL", books);
       setBooks(formattedBooks.slice(0, 21));
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -55,18 +48,37 @@ export const BookList = ({ genre }) => {
 
   return (
     <div>
-      <h1>Book List</h1>
-      {books && (
-        <ul>
-          {books.map((book, index) => (
-            <li key={index}>
-              <h2>{book.title}</h2>
-              <p>Author(s): {book.authors}</p>
-              <img src={book.imageLink} alt={`Cover for ${book.title}`} />
-            </li>
-          ))}
-        </ul>
-      )}
+      <div className={styles.gridContainer}>
+        <h1>Book List</h1>
+        {books && (
+          <div className={styles.gridContainer}>
+            {books.map((book, index) => (
+              <div key={index} className={styles.gridItem}>
+                <img src={book.imageLink} alt={`Cover for ${book.title}`} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
+
+// {
+/* <div className={styles.gridContainer}>
+  {items.map((item, index) => (
+    <div key={index} className={styles.gridItem}>
+      {item}
+    </div>
+  ))}
+</div>; */
+// }
+// <ul>
+//   {books.map((book, index) => (
+//     <li key={index}>
+//       <h2>{book.title}</h2>
+//       <p>Author(s): {book.authors}</p>
+//       <img src={book.imageLink} alt={`Cover for ${book.title}`} />
+//     </li>
+//   ))}
+// </ul>
