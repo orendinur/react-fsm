@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { API_KEY, BASE_BOOKS_URL, GENRES } from "../../utils/constants";
 import { BookList } from "../BookList/BookList";
 import { useFsm } from "../../fsm";
@@ -7,6 +7,7 @@ import { fetchData } from "../../utils/helpers";
 import { CircleLoader } from "react-spinners";
 
 import styles from "./BooksLayout.module.css";
+import { debounce } from "lodash";
 
 export const BooksLayout = () => {
   const [currentMachineState, transition] = useFsm(fetchMachine);
@@ -22,9 +23,30 @@ export const BooksLayout = () => {
   useEffect(() => {
     if (error) {
       transition(TRANSITIONS.REJECT);
-      console.log("oren error");
     }
   }, [error]);
+
+  // validate that all fields that will be visible exist
+  const getBooksWithFields = (books) => {
+    return books.filter((bookInfo) => {
+      return (
+        bookInfo.imageLinks &&
+        bookInfo.imageLinks.thumbnail &&
+        bookInfo.title &&
+        bookInfo.authors
+      );
+    });
+  };
+
+  const formatBooksShape = (books) => {
+    return books.map((bookInfo) => {
+      return {
+        title: bookInfo.title,
+        authors: bookInfo.authors,
+        imageLink: bookInfo.imageLinks.thumbnail,
+      };
+    });
+  };
 
   const fetch = async (genre) => {
     try {
@@ -35,41 +57,28 @@ export const BooksLayout = () => {
       const books = booksResponse.items.map((item) => item.volumeInfo);
       if (!books) return;
 
-      const filteredBooks = books.filter((bookInfo) => {
-        return (
-          bookInfo.imageLinks &&
-          bookInfo.imageLinks.thumbnail &&
-          bookInfo.title &&
-          bookInfo.authors
-        );
-      });
-
-      const formattedBooks = filteredBooks.map((bookInfo) => {
-        return {
-          title: bookInfo.title,
-          authors: bookInfo.authors,
-          imageLink: bookInfo.imageLinks.thumbnail,
-        };
-      });
-
-      // Use the first 20 books
+      const filteredBooks = getBooksWithFields(books);
+      const formattedBooks = formatBooksShape(filteredBooks);
+      // Show 20 books
       setBooks(formattedBooks.slice(0, 20));
-      console.log("interest fetch", currentMachineState);
     } catch (error) {
       console.error("Error fetching books:", error);
       setError(error);
     }
   };
 
+  const onClickingEnd = useCallback(
+    debounce((genre) => {
+      fetch(genre);
+    }, 600),
+    []
+  );
+
   const onClick = (event) => {
-    console.log("oren selected", event.target.textContent);
     const genre = event.target.textContent;
     if (!event || !genre) return;
-    console.log("oren first transitrion ");
     transition(TRANSITIONS.LOAD);
-    setTimeout(() => {
-      fetch(genre);
-    }, 1000);
+    onClickingEnd(genre);
   };
 
   return (
