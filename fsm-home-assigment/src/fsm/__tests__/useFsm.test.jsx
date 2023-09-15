@@ -6,8 +6,8 @@ import {
   TRANSITIONS,
   endlessTestMachine,
   finalTestMachine,
+  STATES,
 } from "../utils/test/testMachine";
-import { STATES } from "../../light.machine";
 import { useFsm } from "../useFsm";
 import { TestComponent } from "../utils/test/TestComponent";
 

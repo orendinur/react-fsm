@@ -1,17 +1,17 @@
 import { useState } from "react";
 
 export const useFsm = (machine) => {
-  const [currentValue, setCurrentValue] = useState(machine?.initialState);
+  const [currentState, setCurrentState] = useState(machine?.initialState);
   const transition = (name) => {
-    if (!machine || !machine.states || !currentValue) return;
+    if (!machine || !machine.states || !currentState) return;
 
-    const currentDefinition = machine.states[currentValue];
+    const currentDefinition = machine.states[currentState];
     if (!currentDefinition) return;
 
     console.log("oren currentDefinition", currentDefinition);
 
     if (currentDefinition.isFinalState) {
-      setCurrentValue(null);
+      setCurrentState(null);
     }
 
     const destinationTransition =
@@ -19,9 +19,9 @@ export const useFsm = (machine) => {
     if (!destinationTransition) return;
 
     if (destinationTransition.targetState) {
-      setCurrentValue(destinationTransition.targetState);
+      setCurrentState(destinationTransition.targetState);
     }
   };
 
-  return [currentValue, transition];
+  return [currentState, transition];
 };

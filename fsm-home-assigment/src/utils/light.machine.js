@@ -1,3 +1,5 @@
+//TODO: DELETE
+
 export const TRANSITIONS = {
   TIMER: "timer",
   NONE: "none",

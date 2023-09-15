@@ -25,3 +25,9 @@
 .button:hover {
   color: #928585;
 }
+
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
