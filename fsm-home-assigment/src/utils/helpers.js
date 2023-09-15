@@ -6,5 +6,6 @@ export const fetchData = async (url) => {
     return res && res.data;
   } catch (errors) {
     console.error(errors);
+    return Promise.reject(new Error(errors));
   }
 };
