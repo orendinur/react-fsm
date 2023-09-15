@@ -1,13 +1,18 @@
 import { useState } from "react";
 
 export const useFsm = (machine) => {
-  const [currentValue, setCurrentValue] = useState(machine.initialState);
-
+  const [currentValue, setCurrentValue] = useState(machine?.initialState);
   const transition = (name) => {
-    if (!machine.states || !currentValue) return;
+    if (!machine || !machine.states || !currentValue) return;
 
     const currentDefinition = machine.states[currentValue];
     if (!currentDefinition) return;
+
+    console.log("oren currentDefinition", currentDefinition);
+
+    if (currentDefinition.isFinalState) {
+      setCurrentValue(null);
+    }
 
     const destinationTransition =
       currentDefinition.onTransition && currentDefinition.onTransition[name];
