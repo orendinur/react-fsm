@@ -1,5 +1,3 @@
-import { test } from "vitest";
-
 export const TRANSITIONS = {
   TIMER: "timer",
   NONE: "none",
