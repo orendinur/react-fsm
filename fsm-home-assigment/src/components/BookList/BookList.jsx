@@ -50,7 +50,6 @@ export const BookList = ({ genre }) => {
   return (
     <div>
       <div className={styles.gridContainer}>
-        <h1>Book List</h1>
         {books && (
           <div className={styles.gridContainer}>
             {books.map((book, index) => (
@@ -64,22 +63,3 @@ export const BookList = ({ genre }) => {
     </div>
   );
 };
-
-// {
-/* <div className={styles.gridContainer}>
-  {items.map((item, index) => (
-    <div key={index} className={styles.gridItem}>
-      {item}
-    </div>
-  ))}
-</div>; */
-// }
-// <ul>
-//   {books.map((book, index) => (
-//     <li key={index}>
-//       <h2>{book.title}</h2>
-//       <p>Author(s): {book.authors}</p>
-//       <img src={book.imageLink} alt={`Cover for ${book.title}`} />
-//     </li>
-//   ))}
-// </ul>
