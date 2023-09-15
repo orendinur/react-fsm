@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchData } from "../../utils/helpers";
 import { API_KEY, BASE_BOOKS_URL } from "../../utils/constants";
+// @ts-ignore
 import styles from "./BookList.module.css";
 
 export const BookList = ({ genre }) => {
