@@ -3,11 +3,12 @@
   border-top-right-radius: inherit;
   border-top-left-radius: inherit;
   width: 100%;
-  overflow: hidden;
   object-fit: cover;
 }
 
 .image img {
+  border-radius: 15px;
+  height: inherit;
   width: inherit;
 }
 
