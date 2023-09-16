@@ -1,0 +1,19 @@
+.error {
+  background-color: rgb(191, 95, 95);
+  padding: 3px 40px;
+  border-radius: 10px;
+}
+
+.text {
+  font-size: 30px;
+  color: white;
+}
+
+/* .errorMessage {
+  color: rgba(255, 0, 0, 0.1);
+  font-size: 20px;
+  text-align: center;
+  padding: 20px;
+  border: 2px solid red;
+  border-radius: 5px;
+} */

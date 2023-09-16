@@ -1,22 +1,22 @@
 import { useEffect } from "react";
-import { TRANSITIONS } from "../../../light.machine";
+import { TRANSITIONS } from "../../../utils/light.machine";
 import { useFsm } from "../../useFsm";
 
 export const TestComponent = ({ machine }) => {
-  const [currentValue, transition] = useFsm(machine);
+  const [currentMachineState, transition] = useFsm(machine);
 
   const handleClick = () => {
-    console.log("oren started timeout.. current state is", currentValue);
+    console.log("oren started timeout.. current state is", currentMachineState);
     transition(TRANSITIONS.TIMER);
   };
   useEffect(() => {
-    console.log("oren current value changed to", currentValue);
-  }, [currentValue]);
+    console.log("oren current value changed to", currentMachineState);
+  }, [currentMachineState]);
 
   return (
     <>
       <button onClick={handleClick}>Click to transition</button>
-      <div>{currentValue}</div>
+      <div>{currentMachineState}</div>
     </>
   );
 };
