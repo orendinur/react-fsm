@@ -1,6 +1,8 @@
 import { Book as BookInterface } from "../../types/types";
 import styles from "./Book.module.css";
 
+// Displays information about a book, including its cover image, title, and authors.
+
 interface BookProps {
   book: BookInterface;
 }

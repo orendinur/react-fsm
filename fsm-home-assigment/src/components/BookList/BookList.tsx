@@ -2,6 +2,9 @@ import { Book as BookInterface } from "../../types/types";
 import { Book } from "../Book";
 import styles from "./BookList.module.css";
 
+// Displays a list of books using the Book component.
+// It takes an array of book objects (of type Book) as a prop, and renders them in a grid layout.
+
 interface BookListProps {
   books: BookInterface[];
 }

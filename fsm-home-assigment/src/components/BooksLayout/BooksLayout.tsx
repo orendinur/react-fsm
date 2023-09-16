@@ -5,10 +5,13 @@ import { useFsm } from "../../fsm";
 import fetchMachine, { STATES, TRANSITIONS } from "../../utils/fetchMachine";
 import { fetchData } from "../../utils/helpers";
 import { CircleLoader } from "react-spinners";
-
-import styles from "./BooksLayout.module.css";
 import { debounce } from "lodash";
 import { Error } from "../Error";
+import styles from "./BooksLayout.module.css";
+
+// Displays a list of books genres and a list of books based on the selected genre.
+// It uses the Google Books API to fetch books data and transitions between loading, success, and failure states using a Finite State Machine (FSM)
+// from the useFsm library.
 
 export const BooksLayout = () => {
   const { currentMachineState, transition } = useFsm(fetchMachine);

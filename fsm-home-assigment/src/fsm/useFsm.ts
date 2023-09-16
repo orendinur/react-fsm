@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { FiniteStateMachine, Transition, TransitionName } from "./types";
 
+// The useFsm custom hook is designed to create and manage a Finite State Machine (FSM) within React components.
+// It provides functionality to retrieve the current state of the FSM and trigger machine state transitions.
+
 export const useFsm = (machine: FiniteStateMachine) => {
   const [currentMachineState, setCurrentMachineState] = useState<string | null>(
     machine?.initialState
