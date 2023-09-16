@@ -1,9 +1,10 @@
 .image {
-  height: 450px;
+  height: 500px;
   border-top-right-radius: inherit;
   border-top-left-radius: inherit;
   width: 100%;
   overflow: hidden;
+  object-fit: cover;
 }
 
 .image img {
