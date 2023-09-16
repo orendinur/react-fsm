@@ -6,9 +6,8 @@ export interface FinalStateInterface {
   isFinalState: boolean;
 }
 
-export interface FiniteStateMachine {
-  initialState: StateName;
-  states: Record<StateName, StateTransitions>;
+export interface TargetState {
+  targetState: StateName;
 }
 
 export interface StateTransitions {
@@ -16,6 +15,7 @@ export interface StateTransitions {
   isFinalState?: boolean;
 }
 
-export interface TargetState {
-  targetState: StateName;
+export interface FiniteStateMachine {
+  initialState: StateName;
+  states: Record<StateName, StateTransitions>;
 }
