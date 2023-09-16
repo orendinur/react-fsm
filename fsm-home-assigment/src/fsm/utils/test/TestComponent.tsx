@@ -8,7 +8,7 @@ interface TestComponentProps {
 export const TestComponent = (props: TestComponentProps) => {
   const { machine } = props;
 
-  const [currentMachineState, transition] = useFsm(machine);
+  const { currentMachineState, transition } = useFsm(machine);
 
   const handleClick = () => {
     transition(TRANSITIONS.TIMER);

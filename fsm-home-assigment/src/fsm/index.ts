@@ -1,1 +1,1 @@
-export * from "./useFsm.js";
+export * from "./useFsm";

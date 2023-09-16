@@ -10,6 +10,7 @@ import {
 } from "../utils/test/testMachine";
 import { useFsm } from "../useFsm";
 import { TestComponent } from "../utils/test/TestComponent";
+import fetchMachine from "../../utils/fetchMachine";
 
 // This test suite, contains tests to evaluate the behavior of a simple React component that uses the `useFsm` hook.
 
@@ -34,20 +35,20 @@ describe("TestComponent", () => {
 
 describe("useFsm", () => {
   test("should stay on the same state on non-existing event", async () => {
-    const { result } = renderHook(() => useFsm(endlessTestMachine));
-    const [initialValue, transition] = result.current;
+    const { result } = renderHook(() => useFsm(fetchMachine));
+    const { currentMachineState, transition } = result.current;
     transition(TRANSITIONS.NONE);
-    const [updatedValue] = result.current;
-    expect(updatedValue).toBe(initialValue);
+    const updatedValue = result.current.currentMachineState;
+    expect(updatedValue).toBe(currentMachineState);
   });
 
   test("should return null after transitioning from a final state", () => {
     const { result } = renderHook(() => useFsm(finalTestMachine));
-    const [initialValue, transition] = result.current;
+    const { currentMachineState, transition } = result.current;
     act(() => {
       transition(TRANSITIONS.NONE);
     });
-    const [updatedValue] = result.current;
+    const updatedValue = result.current.currentMachineState;
     expect(updatedValue).toBe(null);
   });
 });

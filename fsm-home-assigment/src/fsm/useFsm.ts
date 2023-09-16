@@ -1,25 +1,19 @@
 import { useState } from "react";
-import { FiniteStateMachine, TransitionName } from "./types";
+import { FiniteStateMachine, Transition, TransitionName } from "./types";
 
-interface UseFsmProps {
-  machine: FiniteStateMachine;
-}
-
-export const useFsm = (props: UseFsmProps) => {
-  const { machine } = props;
-
-  const [currentState, setCurrentState] = useState<string | null>(
+export const useFsm = (machine: FiniteStateMachine) => {
+  const [currentMachineState, setCurrentMachineState] = useState<string | null>(
     machine?.initialState
   );
 
-  const transition = (name: TransitionName) => {
-    if (!machine || !machine.states || !currentState) return;
+  const transition: Transition = (name: TransitionName) => {
+    if (!machine || !machine.states || !currentMachineState) return;
 
-    const currentDefinition = machine.states[currentState];
+    const currentDefinition = machine.states[currentMachineState];
     if (!currentDefinition) return;
 
     if (currentDefinition.isFinalState) {
-      setCurrentState(null);
+      setCurrentMachineState(null);
     }
 
     const destinationTransition =
@@ -27,9 +21,9 @@ export const useFsm = (props: UseFsmProps) => {
     if (!destinationTransition) return;
 
     if (destinationTransition.targetState) {
-      setCurrentState(destinationTransition.targetState);
+      setCurrentMachineState(destinationTransition.targetState);
     }
   };
 
-  return [currentState, transition];
+  return { currentMachineState, transition };
 };

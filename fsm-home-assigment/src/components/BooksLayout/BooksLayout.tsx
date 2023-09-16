@@ -11,7 +11,7 @@ import { debounce } from "lodash";
 import { Error } from "../Error";
 
 export const BooksLayout = () => {
-  const [currentMachineState, transition] = useFsm(fetchMachine);
+  const { currentMachineState, transition } = useFsm(fetchMachine);
   const [error, setError] = useState("");
   const [books, setBooks] = useState(null);
 

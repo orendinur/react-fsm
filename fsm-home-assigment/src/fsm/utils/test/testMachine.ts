@@ -38,7 +38,7 @@ export const endlessTestMachine: FiniteStateMachine = {
   },
 };
 
-export const finalTestMachine = {
+export const finalTestMachine: FiniteStateMachine = {
   initialState: STATES.RED,
   states: {
     red: {
