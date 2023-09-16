@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 import { API_KEY, BASE_BOOKS_URL, GENRES } from "../../utils/constants";
-import { BookList } from "../BookList/BookList";
+import { BookList } from "../BookList";
 import { useFsm } from "../../fsm";
-import fetchMachine, { STATES, TRANSITIONS } from "../../utils/fetch.machine";
+import fetchMachine, { STATES, TRANSITIONS } from "../../utils/fetchMachine";
 import { fetchData } from "../../utils/helpers";
 import { CircleLoader } from "react-spinners";
 
@@ -28,8 +28,8 @@ export const BooksLayout = () => {
   }, [error]);
 
   // validate that all fields that will be visible exist
-  const getBooksWithFields = (books) => {
-    return books.filter((bookInfo) => {
+  const getBooksWithFields = (books: any) => {
+    return books.filter((bookInfo: any) => {
       return (
         bookInfo.imageLinks &&
         bookInfo.imageLinks.thumbnail &&
@@ -39,8 +39,8 @@ export const BooksLayout = () => {
     });
   };
 
-  const formatBooksShape = (books) => {
-    return books.map((bookInfo) => {
+  const formatBooksShape = (books: any) => {
+    return books.map((bookInfo: any) => {
       return {
         title: bookInfo.title,
         authors: bookInfo.authors,
@@ -49,33 +49,35 @@ export const BooksLayout = () => {
     });
   };
 
-  const fetch = async (genre) => {
+  const fetch = async (genre: string) => {
     try {
       const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&zoom=0`;
       const booksResponse = await fetchData(url);
       if (!booksResponse || !booksResponse.items) return;
 
-      const books = booksResponse.items.map((item) => item.volumeInfo);
+      const books = booksResponse.items.map((item: any) => item.volumeInfo);
       if (!books) return;
 
       const filteredBooks = getBooksWithFields(books);
       const formattedBooks = formatBooksShape(filteredBooks);
       // Show 20 books
       setBooks(formattedBooks.slice(0, 20));
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching books:", error);
       setError(error);
     }
   };
 
   const onClickingEnd = useCallback(
-    debounce((genre) => {
+    debounce((genre: string) => {
       fetch(genre);
     }, 600),
     []
   );
 
-  const onClick = (event) => {
+  const onClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!(event.target instanceof HTMLDivElement)) return;
+
     const genre = event.target.textContent;
     if (!event || !genre) return;
     transition(TRANSITIONS.LOAD);
