@@ -8,6 +8,7 @@ import { CircleLoader } from "react-spinners";
 
 import styles from "./BooksLayout.module.css";
 import { debounce } from "lodash";
+import { Error } from "../Error";
 
 export const BooksLayout = () => {
   const [currentMachineState, transition] = useFsm(fetchMachine);
@@ -50,7 +51,7 @@ export const BooksLayout = () => {
 
   const fetch = async (genre) => {
     try {
-      const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}`;
+      const url = `XYZ${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}`;
       const booksResponse = await fetchData(url);
       if (!booksResponse || !booksResponse.items) return;
 
@@ -95,19 +96,21 @@ export const BooksLayout = () => {
         </ul>
       </div>
 
-      {currentMachineState == STATES.LOADING && (
-        <div className={styles.loader}>
-          <CircleLoader color="#dedede" size="120px" />
-        </div>
-      )}
+      <div className={styles.center}>
+        {/* {currentMachineState == STATES.LOADING && ( */}
+        {/* <CircleLoader color="#dedede" size="120px" /> */}
+        {/* )} */}
+        {
+          // currentMachineState == STATES.FAILURE &&
+          <Error />
+        }
+      </div>
 
       {currentMachineState == STATES.SUCCESS && books && (
         <div className={styles.gridContainer}>
           <BookList books={books} />
         </div>
       )}
-
-      {currentMachineState == STATES.FAILURE && <div>Error</div>}
     </>
   );
 };
