@@ -54,7 +54,7 @@ export const BooksLayout = () => {
 
   const fetch = async (genre: string) => {
     try {
-      const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&zoom=0`;
+      const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&langRestrict=en`;
       const booksResponse = await fetchData(url);
       if (!booksResponse || !booksResponse.items) return;
 
