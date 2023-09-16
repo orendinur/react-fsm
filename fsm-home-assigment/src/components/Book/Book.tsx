@@ -1,6 +1,13 @@
+import { Book as BookType } from "../../types";
 import styles from "./Book.module.css";
 
-export const Book = ({ book }) => {
+interface BookProps {
+  book: BookType;
+}
+
+export const Book = (props: BookProps) => {
+  const { book } = props;
+
   return (
     <>
       <div className={styles.image}>
