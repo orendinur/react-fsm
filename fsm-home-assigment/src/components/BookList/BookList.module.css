@@ -1,11 +1,22 @@
 .gridContainer {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 50px;
   justify-items: center;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  padding-top: 30px;
 }
 
 .gridItem {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 300px;
+}
+/* .gridItem {
   background-color: #f0f0f0;
   border: 1px solid #ddd;
-}
+  border-radius: 15px;
+  overflow: hidden;
+  border: 3px solid transparent;
+} */

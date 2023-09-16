@@ -44,14 +44,14 @@ export const BooksLayout = () => {
       return {
         title: bookInfo.title,
         authors: bookInfo.authors,
-        imageLink: bookInfo.imageLinks.thumbnail,
+        imageLink: bookInfo.imageLinks.thumbnail, //.replace("zoom=1", "zoom=2"),
       };
     });
   };
 
   const fetch = async (genre) => {
     try {
-      const url = `XYZ${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}`;
+      const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&zoom=0`;
       const booksResponse = await fetchData(url);
       if (!booksResponse || !booksResponse.items) return;
 
@@ -97,19 +97,14 @@ export const BooksLayout = () => {
       </div>
 
       <div className={styles.center}>
-        {/* {currentMachineState == STATES.LOADING && ( */}
-        {/* <CircleLoader color="#dedede" size="120px" /> */}
-        {/* )} */}
-        {
-          // currentMachineState == STATES.FAILURE &&
-          <Error />
-        }
+        {currentMachineState == STATES.LOADING && (
+          <CircleLoader color="#dedede" size="120px" />
+        )}
+        {currentMachineState == STATES.FAILURE && <Error />}
       </div>
 
       {currentMachineState == STATES.SUCCESS && books && (
-        <div className={styles.gridContainer}>
-          <BookList books={books} />
-        </div>
+        <BookList books={books} />
       )}
     </>
   );
