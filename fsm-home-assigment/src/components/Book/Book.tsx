@@ -1,8 +1,8 @@
-import { Book as BookType } from "../../types";
+import { Book as BookInterface } from "../../types";
 import styles from "./Book.module.css";
 
 interface BookProps {
-  book: BookType;
+  book: BookInterface;
 }
 
 export const Book = (props: BookProps) => {
