@@ -5,8 +5,8 @@ export const BookList = ({ books }) => {
   return (
     <div className={styles.gridContainer}>
       {books.map((book, index) => (
-        <div className={styles.gridItem}>
-          <Book key={index} book={book} />
+        <div key={index} className={styles.gridItem}>
+          <Book book={book} />
         </div>
       ))}
     </div>
