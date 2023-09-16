@@ -1,9 +1,18 @@
 import { useState } from "react";
+import { FiniteStateMachine, TransitionName } from "./types";
 
-export const useFsm = (machine) => {
-  const [currentState, setCurrentState] = useState(machine?.initialState);
+interface UseFsmProps {
+  machine: FiniteStateMachine;
+}
 
-  const transition = (name) => {
+export const useFsm = (props: UseFsmProps) => {
+  const { machine } = props;
+
+  const [currentState, setCurrentState] = useState<string | null>(
+    machine?.initialState
+  );
+
+  const transition = (name: TransitionName) => {
     if (!machine || !machine.states || !currentState) return;
 
     const currentDefinition = machine.states[currentState];

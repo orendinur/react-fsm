@@ -1,4 +1,4 @@
-import { Book as BookInterface } from "../../types";
+import { Book as BookInterface } from "../../types/types";
 import styles from "./Book.module.css";
 
 interface BookProps {

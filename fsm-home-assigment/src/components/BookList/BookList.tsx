@@ -1,4 +1,4 @@
-import { Book as BookInterface } from "../../types";
+import { Book as BookInterface } from "../../types/types";
 import { Book } from "../Book";
 import styles from "./BookList.module.css";
 

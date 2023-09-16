@@ -1,15 +1,17 @@
-export const TRANSITIONS = {
-  TIMER: "timer",
-  NONE: "none",
-};
+import { FiniteStateMachine } from "../../types";
 
-export const STATES = {
-  RED: "red",
-  YELLOW: "yellow",
-  GREEN: "green",
-};
+export enum TRANSITIONS {
+  TIMER = "timer",
+  NONE = "none",
+}
 
-export const endlessTestMachine = {
+export enum STATES {
+  RED = "red",
+  YELLOW = "yellow",
+  GREEN = "green",
+}
+
+export const endlessTestMachine: FiniteStateMachine = {
   initialState: STATES.RED,
   states: {
     red: {
