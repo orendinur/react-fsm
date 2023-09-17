@@ -8,6 +8,7 @@ import { CircleLoader } from "react-spinners";
 import { debounce } from "lodash";
 import { Error } from "../Error";
 import styles from "./BooksLayout.module.css";
+import { GenreList } from "../GenreList/GenreList";
 
 // Displays a list of books genres and a list of books based on the selected genre.
 // It uses the Google Books API to fetch books data and transitions between loading, success, and failure states using a Finite State Machine (FSM)
@@ -15,7 +16,7 @@ import styles from "./BooksLayout.module.css";
 
 export const BooksLayout = () => {
   const { currentMachineState, transition } = useFsm(fetchMachine);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const [books, setBooks] = useState(null);
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export const BooksLayout = () => {
       return {
         title: bookInfo.title,
         authors: bookInfo.authors,
-        imageLink: bookInfo.imageLinks.thumbnail, //.replace("zoom=1", "zoom=2"),
+        imageLink: bookInfo.imageLinks.thumbnail,
       };
     });
   };
@@ -79,10 +80,11 @@ export const BooksLayout = () => {
   );
 
   const onClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (!(event.target instanceof HTMLDivElement)) return;
+    if (!event || !(event.target instanceof HTMLDivElement)) return;
 
     const genre = event.target.textContent;
-    if (!event || !genre) return;
+    if (!genre) return;
+
     transition(TRANSITIONS.LOAD);
     onClickingEnd(genre);
   };
@@ -90,35 +92,25 @@ export const BooksLayout = () => {
   return (
     <>
       <div className={styles.container}>
-        <ul className={styles.list}>
-          {GENRES.map((genre, index) => (
-            <li key={index} className={styles.item}>
-              <div className={styles.button} onClick={onClick}>
-                {genre}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className={styles.center}>
-        {currentMachineState == STATES.LOADING && (
-          <div data-testid={"loader"}>
-            <CircleLoader color="#dedede" size="120px" />
-          </div>
-        )}
-        {currentMachineState == STATES.FAILURE && (
-          <div data-testid={"error"}>
-            <Error />
-          </div>
-        )}
-      </div>
-
-      {currentMachineState == STATES.SUCCESS && books && (
-        <div data-testid={"bookList"}>
-          <BookList books={books} />
+        <GenreList onClick={onClick} />
+        <div className={styles.center}>
+          {currentMachineState == STATES.LOADING && (
+            <div data-testid={"loader"}>
+              <CircleLoader color="#dedede" size="120px" />
+            </div>
+          )}
+          {currentMachineState == STATES.FAILURE && (
+            <div data-testid={"error"}>
+              <Error />
+            </div>
+          )}
         </div>
-      )}
+        {currentMachineState == STATES.SUCCESS && books && (
+          <div data-testid={"bookList"}>
+            <BookList books={books} />
+          </div>
+        )}
+      </div>
     </>
   );
 };
