@@ -11,7 +11,7 @@ export const Book = (props: BookProps) => {
   const { book } = props;
 
   return (
-    <>
+    <div data-testid={"book"}>
       <div className={styles.image}>
         <img src={book.imageLink} alt={`Cover for ${book.title}`} />
       </div>
@@ -19,6 +19,6 @@ export const Book = (props: BookProps) => {
         <h2>{book.title}</h2>
         <p>{book.authors}</p>
       </div>
-    </>
+    </div>
   );
 };

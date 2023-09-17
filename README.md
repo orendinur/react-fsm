@@ -20,5 +20,7 @@ $ npm run dev
 ## To test:
 
 ```
+$ cd fsm-home-assignment
+
 $ npm run test
 ```
