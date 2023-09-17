@@ -52,7 +52,7 @@ export const BooksLayout = () => {
     });
   };
 
-  const fetch = async (genre: string) => {
+  const fetchBooks = async (genre: string) => {
     try {
       const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&langRestrict=en`;
       const booksResponse = await fetchData(url);
@@ -73,7 +73,7 @@ export const BooksLayout = () => {
 
   const onClickingEnd = useCallback(
     debounce((genre: string) => {
-      fetch(genre);
+      fetchBooks(genre);
     }, 600),
     []
   );
@@ -103,13 +103,21 @@ export const BooksLayout = () => {
 
       <div className={styles.center}>
         {currentMachineState == STATES.LOADING && (
-          <CircleLoader color="#dedede" size="120px" />
+          <div data-testid={"loader"}>
+            <CircleLoader color="#dedede" size="120px" />
+          </div>
         )}
-        {currentMachineState == STATES.FAILURE && <Error />}
+        {currentMachineState == STATES.FAILURE && (
+          <div data-testid={"error"}>
+            <Error />
+          </div>
+        )}
       </div>
 
       {currentMachineState == STATES.SUCCESS && books && (
-        <BookList books={books} />
+        <div data-testid={"bookList"}>
+          <BookList books={books} />
+        </div>
       )}
     </>
   );
