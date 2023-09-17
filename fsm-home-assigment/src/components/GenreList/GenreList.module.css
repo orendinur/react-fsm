@@ -21,5 +21,6 @@
 }
 
 .genre:hover {
+  cursor: pointer;
   color: #928585;
 }
