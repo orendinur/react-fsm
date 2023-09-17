@@ -14,13 +14,13 @@ export const TestComponent = (props: TestComponentProps) => {
 
   const { currentMachineState, transition } = useFsm(machine);
 
-  const handleClick = () => {
+  const onClick = () => {
     transition(TRANSITIONS.TIMER);
   };
 
   return (
     <>
-      <button onClick={handleClick}>Click to transition</button>
+      <button onClick={onClick}>Click to transition</button>
       <div>{currentMachineState}</div>
     </>
   );

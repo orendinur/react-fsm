@@ -1,0 +1,25 @@
+.list {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.item {
+  float: left;
+}
+
+.genre {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  font-size: 30px;
+  text-decoration: none;
+}
+
+.genre:hover {
+  color: #928585;
+}
