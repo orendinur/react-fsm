@@ -1,1 +1,22 @@
-# react-fsm
+# Books Website
+
+A books website for different books genres.
+This app was created using React + Vite
+
+```
+To clone and run:
+
+$ git clone https://github.com/orendinur/react-fsm
+
+$ cd github.com/orendinur/react-fsm
+
+$ npm install
+
+$ npm run dev
+
+To test:
+
+$ npm run test
+
+
+```
