@@ -1,6 +1,6 @@
 # Books
 
-A books website for different books genres.
+a website dedicated to books of various genres.
 
 This app was created using React + Vite.
 
