@@ -1,17 +1,20 @@
-import { useCallback, useEffect, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useState } from "react";
 import { API_KEY, BASE_BOOKS_URL, GENRES } from "../../utils/constants";
-import { BookList } from "../BookList/BookList";
+import { BookList } from "../BookList";
 import { useFsm } from "../../fsm";
-import fetchMachine, { STATES, TRANSITIONS } from "../../utils/fetch.machine";
+import fetchMachine, { STATES, TRANSITIONS } from "../../utils/fetchMachine";
 import { fetchData } from "../../utils/helpers";
 import { CircleLoader } from "react-spinners";
-
-import styles from "./BooksLayout.module.css";
 import { debounce } from "lodash";
 import { Error } from "../Error";
+import styles from "./BooksLayout.module.css";
+
+// Displays a list of books genres and a list of books based on the selected genre.
+// It uses the Google Books API to fetch books data and transitions between loading, success, and failure states using a Finite State Machine (FSM)
+// from the useFsm library.
 
 export const BooksLayout = () => {
-  const [currentMachineState, transition] = useFsm(fetchMachine);
+  const { currentMachineState, transition } = useFsm(fetchMachine);
   const [error, setError] = useState("");
   const [books, setBooks] = useState(null);
 
@@ -28,8 +31,8 @@ export const BooksLayout = () => {
   }, [error]);
 
   // validate that all fields that will be visible exist
-  const getBooksWithFields = (books) => {
-    return books.filter((bookInfo) => {
+  const getBooksWithFields = (books: any) => {
+    return books.filter((bookInfo: any) => {
       return (
         bookInfo.imageLinks &&
         bookInfo.imageLinks.thumbnail &&
@@ -39,8 +42,8 @@ export const BooksLayout = () => {
     });
   };
 
-  const formatBooksShape = (books) => {
-    return books.map((bookInfo) => {
+  const formatBooksShape = (books: any) => {
+    return books.map((bookInfo: any) => {
       return {
         title: bookInfo.title,
         authors: bookInfo.authors,
@@ -49,33 +52,35 @@ export const BooksLayout = () => {
     });
   };
 
-  const fetch = async (genre) => {
+  const fetchBooks = async (genre: string) => {
     try {
-      const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&zoom=0`;
+      const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&langRestrict=en`;
       const booksResponse = await fetchData(url);
       if (!booksResponse || !booksResponse.items) return;
 
-      const books = booksResponse.items.map((item) => item.volumeInfo);
+      const books = booksResponse.items.map((item: any) => item.volumeInfo);
       if (!books) return;
 
       const filteredBooks = getBooksWithFields(books);
       const formattedBooks = formatBooksShape(filteredBooks);
       // Show 20 books
       setBooks(formattedBooks.slice(0, 20));
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error fetching books:", error);
       setError(error);
     }
   };
 
   const onClickingEnd = useCallback(
-    debounce((genre) => {
-      fetch(genre);
+    debounce((genre: string) => {
+      fetchBooks(genre);
     }, 600),
     []
   );
 
-  const onClick = (event) => {
+  const onClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (!(event.target instanceof HTMLDivElement)) return;
+
     const genre = event.target.textContent;
     if (!event || !genre) return;
     transition(TRANSITIONS.LOAD);
@@ -98,13 +103,21 @@ export const BooksLayout = () => {
 
       <div className={styles.center}>
         {currentMachineState == STATES.LOADING && (
-          <CircleLoader color="#dedede" size="120px" />
+          <div data-testid={"loader"}>
+            <CircleLoader color="#dedede" size="120px" />
+          </div>
         )}
-        {currentMachineState == STATES.FAILURE && <Error />}
+        {currentMachineState == STATES.FAILURE && (
+          <div data-testid={"error"}>
+            <Error />
+          </div>
+        )}
       </div>
 
       {currentMachineState == STATES.SUCCESS && books && (
-        <BookList books={books} />
+        <div data-testid={"bookList"}>
+          <BookList books={books} />
+        </div>
       )}
     </>
   );

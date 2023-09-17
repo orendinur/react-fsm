@@ -1,27 +1,29 @@
-export const TRANSITIONS = {
-  LOAD: "load",
-  RESOLVE: "resolve",
-  REJECT: "reject",
-};
+import { FiniteStateMachine } from "../fsm/types";
 
-export const STATES = {
-  DEFAULT: "default",
-  LOADING: "loading",
-  SUCCESS: "success",
-  FAILURE: "failure",
-};
+export enum TRANSITIONS {
+  LOAD = "load",
+  RESOLVE = "resolve",
+  REJECT = "reject",
+}
 
-const fetchMachine = {
+export enum STATES {
+  DEFAULT = "default",
+  LOADING = "loading",
+  SUCCESS = "success",
+  FAILURE = "failure",
+}
+
+const fetchMachine: FiniteStateMachine = {
   initialState: STATES.DEFAULT,
   states: {
-    default: {
+    [STATES.DEFAULT]: {
       onTransition: {
         [TRANSITIONS.LOAD]: {
           targetState: STATES.LOADING,
         },
       },
     },
-    loading: {
+    [STATES.LOADING]: {
       onTransition: {
         [TRANSITIONS.RESOLVE]: {
           targetState: STATES.SUCCESS,
@@ -31,14 +33,14 @@ const fetchMachine = {
         },
       },
     },
-    success: {
+    [STATES.SUCCESS]: {
       onTransition: {
         [TRANSITIONS.LOAD]: {
           targetState: STATES.LOADING,
         },
       },
     },
-    failure: {
+    [STATES.FAILURE]: {
       onTransition: {
         [TRANSITIONS.LOAD]: {
           targetState: STATES.LOADING,
