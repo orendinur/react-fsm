@@ -57,16 +57,21 @@ export const BooksLayout = () => {
     try {
       const url = `${BASE_BOOKS_URL}subject:${genre}&maxResults=${40}&key=${API_KEY}&langRestrict=en`;
       const booksResponse = await fetchData(url);
+      console.log("oren booksResponse");
       if (!booksResponse || !booksResponse.items) return;
 
       const books = booksResponse.items.map((item: any) => item.volumeInfo);
+      console.log("oren books");
       if (!books) return;
 
       const filteredBooks = getBooksWithFields(books);
       const formattedBooks = formatBooksShape(filteredBooks);
       // Show 20 books
       setBooks(formattedBooks.slice(0, 20));
+      console.log("oren set books end");
     } catch (error: any) {
+      console.log("oren fetch Error");
+
       console.error("Error fetching books:", error);
       setError(error);
     }
